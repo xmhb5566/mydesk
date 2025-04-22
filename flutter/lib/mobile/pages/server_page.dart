@@ -24,7 +24,7 @@ class ServerPage extends StatefulWidget implements PageShape {
 
   @override
   final appBarActions = (!bind.isDisableSettings() &&
-          bind.mainGetBuildinOption(key: kOptionHideSecuritySetting) != 'Y')
+      bind.mainGetBuildinOption(key: kOptionHideSecuritySetting) != 'Y')
       ? [_DropDownAction()]
       : [];
 
@@ -72,7 +72,7 @@ class _DropDownAction extends StatelessWidget {
             PopupMenuItem(
               value: 'AcceptSessionsViaClick',
               child:
-                  listTile('Accept sessions via click', approveMode == 'click'),
+              listTile('Accept sessions via click', approveMode == 'click'),
               enabled: !isApproveModeFixed,
             ),
             PopupMenuItem(
@@ -182,22 +182,22 @@ class _ServerPageState extends State<ServerPage> {
         value: gFFI.serverModel,
         child: Consumer<ServerModel>(
             builder: (context, serverModel, child) => SingleChildScrollView(
-                  controller: gFFI.serverModel.controller,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        buildPresetPasswordWarningMobile(),
-                        gFFI.serverModel.isStart
-                            ? ServerInfo()
-                            : ServiceNotRunningNotification(),
-                        const ConnectionManager(),
-                        const PermissionChecker(),
-                        SizedBox.fromSize(size: const Size(0, 15.0)),
-                      ],
-                    ),
-                  ),
-                )));
+              controller: gFFI.serverModel.controller,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    buildPresetPasswordWarningMobile(),
+                    gFFI.serverModel.isStart
+                        ? ServerInfo()
+                        : ServiceNotRunningNotification(),
+                    const ConnectionManager(),
+                    const PermissionChecker(),
+                    SizedBox.fromSize(size: const Size(0, 15.0)),
+                  ],
+                ),
+              ),
+            )));
   }
 }
 
@@ -221,13 +221,13 @@ class ServiceNotRunningNotification extends StatelessWidget {
     return PaddingCard(
         title: translate("Service is not running"),
         titleIcon:
-            const Icon(Icons.warning_amber_sharp, color: Colors.redAccent),
+        const Icon(Icons.warning_amber_sharp, color: Colors.redAccent),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(translate("android_start_service_tip"),
-                    style:
-                        const TextStyle(fontSize: 12, color: MyTheme.darkGray))
+                style:
+                const TextStyle(fontSize: 12, color: MyTheme.darkGray))
                 .marginOnly(bottom: 8),
             ElevatedButton.icon(
                 icon: const Icon(Icons.play_arrow),
@@ -256,173 +256,82 @@ class ScamWarningDialog extends StatefulWidget {
 }
 
 class ScamWarningDialogState extends State<ScamWarningDialog> {
-  int _countdown = bind.isCustomClient() ? 0 : 12;
   bool show_warning = false;
-  late Timer _timer;
   late ServerModel _serverModel;
 
   @override
   void initState() {
     super.initState();
     _serverModel = widget.serverModel;
-    startCountdown();
   }
 
-  void startCountdown() {
-    const oneSecond = Duration(seconds: 1);
-    _timer = Timer.periodic(oneSecond, (timer) {
-      setState(() {
-        _countdown--;
-        if (_countdown <= 0) {
-          timer.cancel();
-        }
-      });
-    });
-  }
+
 
   @override
   void dispose() {
-    _timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isButtonLocked = _countdown > 0;
 
     return AlertDialog(
       content: ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(12.0),
         child: SingleChildScrollView(
           child: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Color(0xffe242bc),
-                  Color(0xfff4727c),
-                ],
-              ),
+             color: Colors.white
             ),
             padding: EdgeInsets.all(25.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.warning_amber_sharp,
-                      color: Colors.white,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      translate("Warning"),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Center(
-                  child: Image.asset(
-                    'assets/scam.png',
-                    width: 180,
-                  ),
+                Text(
+                  "提示",
                 ),
                 SizedBox(height: 18),
                 Text(
-                  translate("scam_title"),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22.0,
-                  ),
+                  "请允许远程协助显示在其他应用的上层",
                 ),
-                SizedBox(height: 18),
-                Text(
-                  "${translate("scam_text1")}\n\n${translate("scam_text2")}\n",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                  ),
-                ),
-                Row(
-                  children: <Widget>[
-                    Checkbox(
-                      value: show_warning,
-                      onChanged: (value) {
-                        setState(() {
-                          show_warning = value!;
-                        });
-                      },
-                    ),
-                    Text(
-                      translate("Don't show again"),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                  ],
-                ),
+                SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      constraints: BoxConstraints(maxWidth: 150),
-                      child: ElevatedButton(
-                        onPressed: isButtonLocked
-                            ? null
-                            : () {
-                                Navigator.of(context).pop();
-                                _serverModel.toggleService();
-                                if (show_warning) {
-                                  bind.mainSetLocalOption(
-                                      key: "show-scam-warning", value: "N");
-                                }
-                              },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
-                        ),
-                        child: Text(
-                          isButtonLocked
-                              ? "${translate("I Agree")} (${_countdown}s)"
-                              : translate("I Agree"),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13.0,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 15),
-                    Container(
-                      constraints: BoxConstraints(maxWidth: 150),
-                      child: ElevatedButton(
-                        onPressed: () {
+                  children: [  ElevatedButton(
+                        onPressed:  () {
                           Navigator.of(context).pop();
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Colors.white,
                         ),
-                        child: Text(
-                          translate("Decline"),
+                        child: Text(   translate("Decline"),
                           style: TextStyle(
+                            color: Color(0xFF0D67FF),
                             fontWeight: FontWeight.bold,
                             fontSize: 13.0,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    SizedBox(width: 15),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        _serverModel.toggleService();
+                        if (show_warning) {
+                          bind.mainSetLocalOption(
+                              key: "show-scam-warning", value: "N");
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: Text(
+                        translate("I Agree"),
+                        style: TextStyle(
+                          color: Color(0xFF0D67FF),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13.0,
                         ),
                       ),
                     ),
@@ -455,7 +364,7 @@ class ServerInfo extends StatelessWidget {
     const TextStyle textStyleHeading = TextStyle(
         fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.grey);
     const TextStyle textStyleValue =
-        TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold);
+    TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold);
 
     void copyToClipboard(String value) {
       Clipboard.setData(ClipboardData(text: value));
@@ -466,7 +375,7 @@ class ServerInfo extends StatelessWidget {
       if (serverModel.connectStatus == -1) {
         return Row(children: [
           const Icon(Icons.warning_amber_sharp,
-                  color: colorNegative, size: iconSize)
+              color: colorNegative, size: iconSize)
               .marginOnly(right: iconMarginRight),
           Expanded(child: Text(translate('not_ready_status')))
         ]);
@@ -494,7 +403,7 @@ class ServerInfo extends StatelessWidget {
           children: [
             Row(children: [
               const Icon(Icons.perm_identity,
-                      color: Colors.grey, size: iconSize)
+                  color: Colors.grey, size: iconSize)
                   .marginOnly(right: iconMarginRight),
               Text(
                 translate('ID'),
@@ -530,18 +439,18 @@ class ServerInfo extends StatelessWidget {
               !showOneTime
                   ? SizedBox.shrink()
                   : Row(children: [
-                      IconButton(
-                          visualDensity: VisualDensity.compact,
-                          icon: const Icon(Icons.refresh),
-                          onPressed: () => bind.mainUpdateTemporaryPassword()),
-                      IconButton(
-                          visualDensity: VisualDensity.compact,
-                          icon: Icon(Icons.copy_outlined),
-                          onPressed: () {
-                            copyToClipboard(
-                                model.serverPasswd.value.text.trim());
-                          })
-                    ])
+                IconButton(
+                    visualDensity: VisualDensity.compact,
+                    icon: const Icon(Icons.refresh),
+                    onPressed: () => bind.mainUpdateTemporaryPassword()),
+                IconButton(
+                    visualDensity: VisualDensity.compact,
+                    icon: Icon(Icons.copy_outlined),
+                    onPressed: () {
+                      copyToClipboard(
+                          model.serverPasswd.value.text.trim());
+                    })
+              ])
             ]).marginOnly(left: 40, bottom: 15),
             ConnectionStateNotification()
           ],
@@ -566,20 +475,20 @@ class _PermissionCheckerState extends State<PermissionChecker> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           serverModel.mediaOk
               ? ElevatedButton.icon(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.red)),
-                      icon: const Icon(Icons.stop),
-                      onPressed: serverModel.toggleService,
-                      label: Text(translate("Stop service")))
-                  .marginOnly(bottom: 8)
+              style: ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all(Colors.red)),
+              icon: const Icon(Icons.stop),
+              onPressed: serverModel.toggleService,
+              label: Text(translate("Stop service")))
+              .marginOnly(bottom: 8)
               : SizedBox.shrink(),
           PermissionRow(
               translate("Screen Capture"),
               serverModel.mediaOk,
               !serverModel.mediaOk &&
-                      gFFI.userModel.userName.value.isEmpty &&
-                      bind.mainGetLocalOption(key: "show-scam-warning") != "N"
+                  gFFI.userModel.userName.value.isEmpty &&
+                  bind.mainGetLocalOption(key: "show-scam-warning") != "N"
                   ? () => showScamWarning(context, serverModel)
                   : serverModel.toggleService),
           PermissionRow(translate("Input Control"), serverModel.inputOk,
@@ -588,15 +497,15 @@ class _PermissionCheckerState extends State<PermissionChecker> {
               serverModel.toggleFile),
           hasAudioPermission
               ? PermissionRow(translate("Audio Capture"), serverModel.audioOk,
-                  serverModel.toggleAudio)
+              serverModel.toggleAudio)
               : Row(children: [
-                  Icon(Icons.info_outline).marginOnly(right: 15),
-                  Expanded(
-                      child: Text(
-                    translate("android_version_audio_tip"),
-                    style: const TextStyle(color: MyTheme.darkGray),
-                  ))
-                ]),
+            Icon(Icons.info_outline).marginOnly(right: 15),
+            Expanded(
+                child: Text(
+                  translate("android_version_audio_tip"),
+                  style: const TextStyle(color: MyTheme.darkGray),
+                ))
+          ]),
           PermissionRow(translate("Enable clipboard"), serverModel.clipboardOk,
               serverModel.toggleClipboard),
         ]));
@@ -633,47 +542,47 @@ class ConnectionManager extends StatelessWidget {
     return Column(
         children: serverModel.clients
             .map((client) => PaddingCard(
-                title: translate(client.isFileTransfer
-                    ? "File Connection"
-                    : "Screen Connection"),
-                titleIcon: client.isFileTransfer
-                    ? Icon(Icons.folder_outlined)
-                    : Icon(Icons.mobile_screen_share),
-                child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(child: ClientInfo(client)),
-                      Expanded(
-                          flex: -1,
-                          child: client.isFileTransfer || !client.authorized
-                              ? const SizedBox.shrink()
-                              : IconButton(
-                                  onPressed: () {
-                                    gFFI.chatModel.changeCurrentKey(
-                                        MessageKey(client.peerId, client.id));
-                                    final bar = navigationBarKey.currentWidget;
-                                    if (bar != null) {
-                                      bar as BottomNavigationBar;
-                                      bar.onTap!(1);
-                                    }
-                                  },
-                                  icon: unreadTopRightBuilder(
-                                      client.unreadChatMessageCount)))
-                    ],
-                  ),
-                  client.authorized
-                      ? const SizedBox.shrink()
-                      : Text(
-                          translate("android_new_connection_tip"),
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ).marginOnly(bottom: 5),
-                  client.authorized
-                      ? _buildDisconnectButton(client)
-                      : _buildNewConnectionHint(serverModel, client),
-                  if (client.incomingVoiceCall && !client.inVoiceCall)
-                    ..._buildNewVoiceCallHint(context, serverModel, client),
-                ])))
+            title: translate(client.isFileTransfer
+                ? "File Connection"
+                : "Screen Connection"),
+            titleIcon: client.isFileTransfer
+                ? Icon(Icons.folder_outlined)
+                : Icon(Icons.mobile_screen_share),
+            child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(child: ClientInfo(client)),
+                  Expanded(
+                      flex: -1,
+                      child: client.isFileTransfer || !client.authorized
+                          ? const SizedBox.shrink()
+                          : IconButton(
+                          onPressed: () {
+                            gFFI.chatModel.changeCurrentKey(
+                                MessageKey(client.peerId, client.id));
+                            final bar = navigationBarKey.currentWidget;
+                            if (bar != null) {
+                              bar as BottomNavigationBar;
+                              bar.onTap!(1);
+                            }
+                          },
+                          icon: unreadTopRightBuilder(
+                              client.unreadChatMessageCount)))
+                ],
+              ),
+              client.authorized
+                  ? const SizedBox.shrink()
+                  : Text(
+                translate("android_new_connection_tip"),
+                style: Theme.of(context).textTheme.bodyMedium,
+              ).marginOnly(bottom: 5),
+              client.authorized
+                  ? _buildDisconnectButton(client)
+                  : _buildNewConnectionHint(serverModel, client),
+              if (client.incomingVoiceCall && !client.inVoiceCall)
+                ..._buildNewVoiceCallHint(context, serverModel, client),
+            ])))
             .toList());
   }
 
@@ -797,7 +706,7 @@ class PaddingCard extends StatelessWidget {
           margin: const EdgeInsets.fromLTRB(12.0, 10.0, 12.0, 0),
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+            const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
             child: Column(
               children: children,
             ),
@@ -832,10 +741,10 @@ class ClientInfo extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Text(client.name, style: const TextStyle(fontSize: 18)),
-                    const SizedBox(width: 8),
-                    Text(client.peerId, style: const TextStyle(fontSize: 10))
-                  ]))
+                        Text(client.name, style: const TextStyle(fontSize: 18)),
+                        const SizedBox(width: 8),
+                        Text(client.peerId, style: const TextStyle(fontSize: 10))
+                      ]))
             ],
           ),
         ]));

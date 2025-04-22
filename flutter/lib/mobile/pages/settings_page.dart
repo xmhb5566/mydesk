@@ -30,7 +30,7 @@ class SettingsPage extends StatefulWidget implements PageShape {
   final icon = Icon(Icons.settings);
 
   @override
-  final appBarActions = bind.isDisableSettings() ? [] : [ScanButton()];
+  final appBarActions =   [];
 
   @override
   State<SettingsPage> createState() => _SettingsState();
@@ -68,7 +68,7 @@ KeepScreenOn optionToKeepScreenOn(String value) {
 
 class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
   final _hasIgnoreBattery =
-      false; //androidVersion >= 26; // remove because not work on every device
+  false; //androidVersion >= 26; // remove because not work on every device
   var _ignoreBatteryOpt = false;
   var _enableStartOnBoot = false;
   var _checkUpdateOnStartup = false;
@@ -143,7 +143,7 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
 
       // start on boot depends on ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS and SYSTEM_ALERT_WINDOW
       var enableStartOnBoot =
-          await gFFI.invokeMethod(AndroidChannel.kGetStartOnBootOpt);
+      await gFFI.invokeMethod(AndroidChannel.kGetStartOnBootOpt);
       if (enableStartOnBoot) {
         if (!await canStartOnBoot()) {
           enableStartOnBoot = false;
@@ -157,7 +157,7 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
       }
 
       var checkUpdateOnStartup =
-          mainGetLocalBoolOptionSync(kOptionEnableCheckUpdate);
+      mainGetLocalBoolOptionSync(kOptionEnableCheckUpdate);
       if (checkUpdateOnStartup != _checkUpdateOnStartup) {
         update = true;
         _checkUpdateOnStartup = checkUpdateOnStartup;
@@ -174,7 +174,7 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
       final keepScreenOn = _floatingWindowDisabled
           ? KeepScreenOn.never
           : optionToKeepScreenOn(
-              bind.mainGetLocalOption(key: kOptionKeepScreenOn));
+          bind.mainGetLocalOption(key: kOptionKeepScreenOn));
       if (keepScreenOn != _keepScreenOn) {
         update = true;
         _keepScreenOn = keepScreenOn;
@@ -206,7 +206,7 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      () async {
+          () async {
         final ibs = await checkAndUpdateIgnoreBatteryStatus();
         final sob = await checkAndUpdateStartOnBoot();
         if (ibs || sob) {
@@ -244,20 +244,6 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
     Provider.of<FfiModel>(context);
     final outgoingOnly = bind.isOutgoingOnly();
     final incommingOnly = bind.isIncomingOnly();
-    final customClientSection = CustomSettingsSection(
-        child: Column(
-      children: [
-        if (bind.isCustomClient())
-          Align(
-            alignment: Alignment.center,
-            child: loadPowered(context),
-          ),
-        Align(
-          alignment: Alignment.center,
-          child: loadLogo(),
-        )
-      ],
-    ));
     final List<AbstractSettingsTile> enhancementsTiles = [];
     final enable2fa = bind.mainHasValid2FaSync();
     final List<AbstractSettingsTile> tfaTiles = [
@@ -312,11 +298,11 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
           onToggle: isOptionFixed(kOptionEnableTrustedDevices)
               ? null
               : (v) async {
-                  mainSetBoolOption(kOptionEnableTrustedDevices, v);
-                  setState(() {
-                    _enableTrustedDevices = v;
-                  });
-                },
+            mainSetBoolOption(kOptionEnableTrustedDevices, v);
+            setState(() {
+              _enableTrustedDevices = v;
+            });
+          },
         ),
       if (enable2fa && _enableTrustedDevices)
         SettingsTile(
@@ -335,23 +321,23 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
         onToggle: isOptionFixed(kOptionEnableLanDiscovery)
             ? null
             : (v) async {
-                await bind.mainSetOption(
-                    key: kOptionEnableLanDiscovery,
-                    value: bool2option(kOptionEnableLanDiscovery, !v));
-                final newValue = !option2bool(kOptionEnableLanDiscovery,
-                    await bind.mainGetOption(key: kOptionEnableLanDiscovery));
-                setState(() {
-                  _denyLANDiscovery = newValue;
-                });
-              },
+          await bind.mainSetOption(
+              key: kOptionEnableLanDiscovery,
+              value: bool2option(kOptionEnableLanDiscovery, !v));
+          final newValue = !option2bool(kOptionEnableLanDiscovery,
+              await bind.mainGetOption(key: kOptionEnableLanDiscovery));
+          setState(() {
+            _denyLANDiscovery = newValue;
+          });
+        },
       ),
       SettingsTile.switchTile(
         title: Row(children: [
           Expanded(child: Text(translate('Use IP Whitelisting'))),
           Offstage(
-                  offstage: !_onlyWhiteList,
-                  child: const Icon(Icons.warning_amber_rounded,
-                      color: Color.fromARGB(255, 255, 204, 0)))
+              offstage: !_onlyWhiteList,
+              child: const Icon(Icons.warning_amber_rounded,
+                  color: Color.fromARGB(255, 255, 204, 0)))
               .marginOnly(left: 5)
         ]),
         initialValue: _onlyWhiteList,
@@ -374,12 +360,12 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
         onToggle: isOptionFixed(kOptionEnableAbr)
             ? null
             : (v) async {
-                await mainSetBoolOption(kOptionEnableAbr, v);
-                final newValue = await mainGetBoolOption(kOptionEnableAbr);
-                setState(() {
-                  _enableAbr = newValue;
-                });
-              },
+          await mainSetBoolOption(kOptionEnableAbr, v);
+          final newValue = await mainGetBoolOption(kOptionEnableAbr);
+          setState(() {
+            _enableAbr = newValue;
+          });
+        },
       ),
       SettingsTile.switchTile(
         title: Text(translate('Enable recording session')),
@@ -387,13 +373,13 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
         onToggle: isOptionFixed(kOptionEnableRecordSession)
             ? null
             : (v) async {
-                await mainSetBoolOption(kOptionEnableRecordSession, v);
-                final newValue =
-                    await mainGetBoolOption(kOptionEnableRecordSession);
-                setState(() {
-                  _enableRecordSession = newValue;
-                });
-              },
+          await mainSetBoolOption(kOptionEnableRecordSession, v);
+          final newValue =
+          await mainGetBoolOption(kOptionEnableRecordSession);
+          setState(() {
+            _enableRecordSession = newValue;
+          });
+        },
       ),
       SettingsTile.switchTile(
         title: Row(
@@ -404,14 +390,14 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Text(translate("Direct IP Access")),
-                    Offstage(
-                        offstage: !_enableDirectIPAccess,
-                        child: Text(
-                          '${translate("Local Address")}: $_localIP${_directAccessPort.isEmpty ? "" : ":$_directAccessPort"}',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        )),
-                  ])),
+                        Text(translate("Direct IP Access")),
+                        Offstage(
+                            offstage: !_enableDirectIPAccess,
+                            child: Text(
+                              '${translate("Local Address")}: $_localIP${_directAccessPort.isEmpty ? "" : ":$_directAccessPort"}',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            )),
+                      ])),
               Offstage(
                   offstage: !_enableDirectIPAccess,
                   child: IconButton(
@@ -423,24 +409,24 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
                       onPressed: isOptionFixed(kOptionDirectAccessPort)
                           ? null
                           : () async {
-                              final port = await changeDirectAccessPort(
-                                  _localIP, _directAccessPort);
-                              setState(() {
-                                _directAccessPort = port;
-                              });
-                            }))
+                        final port = await changeDirectAccessPort(
+                            _localIP, _directAccessPort);
+                        setState(() {
+                          _directAccessPort = port;
+                        });
+                      }))
             ]),
         initialValue: _enableDirectIPAccess,
         onToggle: isOptionFixed(kOptionDirectServer)
             ? null
             : (_) async {
-                _enableDirectIPAccess = !_enableDirectIPAccess;
-                String value =
-                    bool2option(kOptionDirectServer, _enableDirectIPAccess);
-                await bind.mainSetOption(
-                    key: kOptionDirectServer, value: value);
-                setState(() {});
-              },
+          _enableDirectIPAccess = !_enableDirectIPAccess;
+          String value =
+          bool2option(kOptionDirectServer, _enableDirectIPAccess);
+          await bind.mainSetOption(
+              key: kOptionDirectServer, value: value);
+          setState(() {});
+        },
       ),
       SettingsTile.switchTile(
         title: Row(
@@ -451,14 +437,14 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Text(translate("auto_disconnect_option_tip")),
-                    Offstage(
-                        offstage: !_allowAutoDisconnect,
-                        child: Text(
-                          '${_autoDisconnectTimeout.isEmpty ? '10' : _autoDisconnectTimeout} min',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        )),
-                  ])),
+                        Text(translate("auto_disconnect_option_tip")),
+                        Offstage(
+                            offstage: !_allowAutoDisconnect,
+                            child: Text(
+                              '${_autoDisconnectTimeout.isEmpty ? '10' : _autoDisconnectTimeout} min',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            )),
+                      ])),
               Offstage(
                   offstage: !_allowAutoDisconnect,
                   child: IconButton(
@@ -470,24 +456,24 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
                       onPressed: isOptionFixed(kOptionAutoDisconnectTimeout)
                           ? null
                           : () async {
-                              final timeout = await changeAutoDisconnectTimeout(
-                                  _autoDisconnectTimeout);
-                              setState(() {
-                                _autoDisconnectTimeout = timeout;
-                              });
-                            }))
+                        final timeout = await changeAutoDisconnectTimeout(
+                            _autoDisconnectTimeout);
+                        setState(() {
+                          _autoDisconnectTimeout = timeout;
+                        });
+                      }))
             ]),
         initialValue: _allowAutoDisconnect,
         onToggle: isOptionFixed(kOptionAllowAutoDisconnect)
             ? null
             : (_) async {
-                _allowAutoDisconnect = !_allowAutoDisconnect;
-                String value = bool2option(
-                    kOptionAllowAutoDisconnect, _allowAutoDisconnect);
-                await bind.mainSetOption(
-                    key: kOptionAllowAutoDisconnect, value: value);
-                setState(() {});
-              },
+          _allowAutoDisconnect = !_allowAutoDisconnect;
+          String value = bool2option(
+              kOptionAllowAutoDisconnect, _allowAutoDisconnect);
+          await bind.mainSetOption(
+              key: kOptionAllowAutoDisconnect, value: value);
+          setState(() {});
+        },
       )
     ];
     if (_hasIgnoreBattery) {
@@ -508,19 +494,19 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
                       kRequestIgnoreBatteryOptimizations);
                 } else {
                   final res = await gFFI.dialogManager.show<bool>(
-                      (setState, close, context) => CustomAlertDialog(
-                            title: Text(translate("Open System Setting")),
-                            content: Text(translate(
-                                "android_open_battery_optimizations_tip")),
-                            actions: [
-                              dialogButton("Cancel",
-                                  onPressed: () => close(), isOutline: true),
-                              dialogButton(
-                                "Open System Setting",
-                                onPressed: () => close(true),
-                              ),
-                            ],
-                          ));
+                          (setState, close, context) => CustomAlertDialog(
+                        title: Text(translate("Open System Setting")),
+                        content: Text(translate(
+                            "android_open_battery_optimizations_tip")),
+                        actions: [
+                          dialogButton("Cancel",
+                              onPressed: () => close(), isOutline: true),
+                          dialogButton(
+                            "Open System Setting",
+                            onPressed: () => close(true),
+                          ),
+                        ],
+                      ));
                   if (res == true) {
                     AndroidPermissionManager.startAction(
                         kActionApplicationDetailsSettings);
@@ -566,7 +552,7 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
         SettingsTile.switchTile(
           initialValue: _checkUpdateOnStartup,
           title:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(translate('Check for software update on startup')),
           ]),
           onToggle: (bool toValue) async {
@@ -616,15 +602,15 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
       getter: () => _keepScreenOnToOption(_floatingWindowDisabled
           ? KeepScreenOn.never
           : optionToKeepScreenOn(
-              bind.mainGetLocalOption(key: kOptionKeepScreenOn))),
+          bind.mainGetLocalOption(key: kOptionKeepScreenOn))),
       asyncSetter: isOptionFixed(kOptionKeepScreenOn) || _floatingWindowDisabled
           ? null
           : (value) async {
-              await bind.mainSetLocalOption(
-                  key: kOptionKeepScreenOn, value: value);
-              setState(() => _keepScreenOn = optionToKeepScreenOn(value));
-              gFFI.serverModel.androidUpdatekeepScreenOn();
-            },
+        await bind.mainSetLocalOption(
+            key: kOptionKeepScreenOn, value: value);
+        setState(() => _keepScreenOn = optionToKeepScreenOn(value));
+        gFFI.serverModel.androidUpdatekeepScreenOn();
+      },
     ));
 
     final disabledSettings = bind.isDisableSettings();
@@ -632,26 +618,6 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
         bind.mainGetBuildinOption(key: kOptionHideSecuritySetting) == 'Y';
     final settings = SettingsList(
       sections: [
-        customClientSection,
-        if (!bind.isDisableAccount())
-          SettingsSection(
-            title: Text(translate('Account')),
-            tiles: [
-              SettingsTile(
-                title: Obx(() => Text(gFFI.userModel.userName.value.isEmpty
-                    ? translate('Login')
-                    : '${translate('Logout')} (${gFFI.userModel.userName.value})')),
-                leading: Icon(Icons.person),
-                onPressed: (context) {
-                  if (gFFI.userModel.userName.value.isEmpty) {
-                    loginDialog();
-                  } else {
-                    logOutConfirmDialog();
-                  }
-                },
-              ),
-            ],
-          ),
         SettingsSection(title: Text(translate("Settings")), tiles: [
           if (!disabledSettings && !_hideNetwork && !_hideServer)
             SettingsTile(
@@ -694,13 +660,13 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
               onToggle: isOptionFixed(kOptionEnableHwcodec)
                   ? null
                   : (v) async {
-                      await mainSetBoolOption(kOptionEnableHwcodec, v);
-                      final newValue =
-                          await mainGetBoolOption(kOptionEnableHwcodec);
-                      setState(() {
-                        _enableHardwareCodec = newValue;
-                      });
-                    },
+                await mainSetBoolOption(kOptionEnableHwcodec, v);
+                final newValue =
+                await mainGetBoolOption(kOptionEnableHwcodec);
+                setState(() {
+                  _enableHardwareCodec = newValue;
+                });
+              },
             ),
           ]),
         if (isAndroid)
@@ -710,44 +676,44 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
               if (!outgoingOnly)
                 SettingsTile.switchTile(
                   title:
-                      Text(translate('Automatically record incoming sessions')),
+                  Text(translate('Automatically record incoming sessions')),
                   initialValue: _autoRecordIncomingSession,
                   onToggle: isOptionFixed(kOptionAllowAutoRecordIncoming)
                       ? null
                       : (v) async {
-                          await bind.mainSetOption(
-                              key: kOptionAllowAutoRecordIncoming,
-                              value: bool2option(
-                                  kOptionAllowAutoRecordIncoming, v));
-                          final newValue = option2bool(
-                              kOptionAllowAutoRecordIncoming,
-                              await bind.mainGetOption(
-                                  key: kOptionAllowAutoRecordIncoming));
-                          setState(() {
-                            _autoRecordIncomingSession = newValue;
-                          });
-                        },
+                    await bind.mainSetOption(
+                        key: kOptionAllowAutoRecordIncoming,
+                        value: bool2option(
+                            kOptionAllowAutoRecordIncoming, v));
+                    final newValue = option2bool(
+                        kOptionAllowAutoRecordIncoming,
+                        await bind.mainGetOption(
+                            key: kOptionAllowAutoRecordIncoming));
+                    setState(() {
+                      _autoRecordIncomingSession = newValue;
+                    });
+                  },
                 ),
               if (!incommingOnly)
                 SettingsTile.switchTile(
                   title:
-                      Text(translate('Automatically record outgoing sessions')),
+                  Text(translate('Automatically record outgoing sessions')),
                   initialValue: _autoRecordOutgoingSession,
                   onToggle: isOptionFixed(kOptionAllowAutoRecordOutgoing)
                       ? null
                       : (v) async {
-                          await bind.mainSetLocalOption(
-                              key: kOptionAllowAutoRecordOutgoing,
-                              value: bool2option(
-                                  kOptionAllowAutoRecordOutgoing, v));
-                          final newValue = option2bool(
-                              kOptionAllowAutoRecordOutgoing,
-                              bind.mainGetLocalOption(
-                                  key: kOptionAllowAutoRecordOutgoing));
-                          setState(() {
-                            _autoRecordOutgoingSession = newValue;
-                          });
-                        },
+                    await bind.mainSetLocalOption(
+                        key: kOptionAllowAutoRecordOutgoing,
+                        value: bool2option(
+                            kOptionAllowAutoRecordOutgoing, v));
+                    final newValue = option2bool(
+                        kOptionAllowAutoRecordOutgoing,
+                        bind.mainGetLocalOption(
+                            key: kOptionAllowAutoRecordOutgoing));
+                    setState(() {
+                      _autoRecordOutgoingSession = newValue;
+                    });
+                  },
                 ),
               SettingsTile(
                 title: Text(translate("Directory")),
@@ -871,10 +837,10 @@ void showLanguageSettings(OverlayDialogManager dialogManager) async {
       return CustomAlertDialog(
         content: Column(
           children: [
-                getRadio(Text(translate('Default')), defaultOptionLang, lang,
-                    isOptFixed ? null : setLang),
-                Divider(color: MyTheme.border),
-              ] +
+            getRadio(Text(translate('Default')), defaultOptionLang, lang,
+                isOptFixed ? null : setLang),
+            Divider(color: MyTheme.border),
+          ] +
               langs.map((e) {
                 final key = e[0] as String;
                 final name = e[1] as String;
@@ -941,22 +907,7 @@ void showAbout(OverlayDialogManager dialogManager) {
   }, clickMaskDismiss: true, backDismiss: true);
 }
 
-class ScanButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.qr_code_scanner),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => ScanPage(),
-          ),
-        );
-      },
-    );
-  }
-}
+
 
 class _DisplayPage extends StatefulWidget {
   const _DisplayPage();
@@ -1002,9 +953,9 @@ class __DisplayPageState extends State<_DisplayPage> {
               asyncSetter: isOptionFixed(kOptionViewStyle)
                   ? null
                   : (value) async {
-                      await bind.mainSetUserDefaultOption(
-                          key: kOptionViewStyle, value: value);
-                    },
+                await bind.mainSetUserDefaultOption(
+                    key: kOptionViewStyle, value: value);
+              },
             ),
             _getPopupDialogRadioEntry(
               title: 'Default Image Quality',
@@ -1016,18 +967,18 @@ class __DisplayPageState extends State<_DisplayPage> {
               ],
               getter: () {
                 final v =
-                    bind.mainGetUserDefaultOption(key: kOptionImageQuality);
+                bind.mainGetUserDefaultOption(key: kOptionImageQuality);
                 showCustomImageQuality.value = v == kRemoteImageQualityCustom;
                 return v;
               },
               asyncSetter: isOptionFixed(kOptionImageQuality)
                   ? null
                   : (value) async {
-                      await bind.mainSetUserDefaultOption(
-                          key: kOptionImageQuality, value: value);
-                      showCustomImageQuality.value =
-                          value == kRemoteImageQualityCustom;
-                    },
+                await bind.mainSetUserDefaultOption(
+                    key: kOptionImageQuality, value: value);
+                showCustomImageQuality.value =
+                    value == kRemoteImageQualityCustom;
+              },
               tail: customImageQualitySetting(),
               showTail: showCustomImageQuality,
               notCloseValue: kRemoteImageQualityCustom,
@@ -1040,16 +991,16 @@ class __DisplayPageState extends State<_DisplayPage> {
               asyncSetter: isOptionFixed(kOptionCodecPreference)
                   ? null
                   : (value) async {
-                      await bind.mainSetUserDefaultOption(
-                          key: kOptionCodecPreference, value: value);
-                    },
+                await bind.mainSetUserDefaultOption(
+                    key: kOptionCodecPreference, value: value);
+              },
             ),
           ],
         ),
         SettingsSection(
           title: Text(translate('Other Default Options')),
           tiles:
-              otherDefaultSettings().map((e) => otherRow(e.$1, e.$2)).toList(),
+          otherDefaultSettings().map((e) => otherRow(e.$1, e.$2)).toList(),
         ),
       ]),
     );
@@ -1064,10 +1015,10 @@ class __DisplayPageState extends State<_DisplayPage> {
       onToggle: isOptFixed
           ? null
           : (b) async {
-              await bind.mainSetUserDefaultOption(
-                  key: key, value: b ? 'Y' : defaultOptionNo);
-              setState(() {});
-            },
+        await bind.mainSetUserDefaultOption(
+            key: key, value: b ? 'Y' : defaultOptionNo);
+        setState(() {});
+      },
     );
   }
 }
@@ -1095,9 +1046,9 @@ class __ManageTrustedDevicesState extends State<_ManageTrustedDevices> {
               onPressed: selectedDevices.isEmpty
                   ? null
                   : () {
-                      confrimDeleteTrustedDevicesDialog(
-                          trustedDevices, selectedDevices);
-                    }))
+                confrimDeleteTrustedDevicesDialog(
+                    trustedDevices, selectedDevices);
+              }))
         ],
       ),
       body: FutureBuilder(
@@ -1153,28 +1104,28 @@ SettingsTile _getPopupDialogRadioEntry({
       final onChanged = asyncSetter == null
           ? null
           : (String? value) async {
-              if (value == null) return;
-              await asyncSetter(value);
-              init();
-              if (value != notCloseValue) {
-                close();
-              }
-            };
+        if (value == null) return;
+        await asyncSetter(value);
+        init();
+        if (value != notCloseValue) {
+          close();
+        }
+      };
 
       return CustomAlertDialog(
           content: Obx(
-        () => Column(children: [
-          ...list
-              .map((e) => getRadio(Text(translate(e.label)), e.value,
+                () => Column(children: [
+              ...list
+                  .map((e) => getRadio(Text(translate(e.label)), e.value,
                   groupValue.value, onChanged))
-              .toList(),
-          Offstage(
-            offstage:
+                  .toList(),
+              Offstage(
+                offstage:
                 !(tail != null && showTail != null && showTail.value == true),
-            child: tail,
-          ),
-        ]),
-      ));
+                child: tail,
+              ),
+            ]),
+          ));
     }, backDismiss: true, clickMaskDismiss: true);
   }
 

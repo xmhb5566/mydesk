@@ -76,14 +76,14 @@ class HomePageState extends State<HomePage> {
           // backgroundColor: MyTheme.grayBg,
           appBar: AppBar(
             centerTitle: true,
-            title: appTitle(),
+            title: Text('远程协助'),
             actions: _pages.elementAt(_selectedIndex).appBarActions,
           ),
           bottomNavigationBar: BottomNavigationBar(
             key: navigationBarKey,
             items: _pages
                 .map((page) =>
-                    BottomNavigationBarItem(icon: page.icon, label: page.title))
+                BottomNavigationBarItem(icon: page.icon, label: page.title))
                 .toList(),
             currentIndex: _selectedIndex,
             type: BottomNavigationBarType.fixed,
@@ -113,7 +113,7 @@ class HomePageState extends State<HomePage> {
         currentUser != null &&
         currentKey.peerId.isNotEmpty) {
       final connected =
-          gFFI.serverModel.clients.any((e) => e.id == currentKey.connId);
+      gFFI.serverModel.clients.any((e) => e.id == currentKey.connId);
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -156,7 +156,7 @@ class HomePageState extends State<HomePage> {
 
 class WebHomePage extends StatelessWidget {
   final connectionPage =
-      ConnectionPage(appBarActions: <Widget>[const WebSettingsPage()]);
+  ConnectionPage(appBarActions: <Widget>[const WebSettingsPage()]);
 
   @override
   Widget build(BuildContext context) {

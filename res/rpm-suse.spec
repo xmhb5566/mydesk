@@ -1,4 +1,4 @@
-Name:       rustdesk
+Name:       远程协助
 Version:    1.1.9
 Release:    0
 Summary:    RPM package

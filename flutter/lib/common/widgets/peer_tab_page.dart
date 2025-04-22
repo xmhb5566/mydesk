@@ -10,7 +10,7 @@ import 'package:flutter_hbb/common/widgets/peer_card.dart';
 import 'package:flutter_hbb/consts.dart';
 import 'package:flutter_hbb/desktop/widgets/popup_menu.dart';
 import 'package:flutter_hbb/desktop/widgets/material_mod_popup_menu.dart'
-    as mod_menu;
+as mod_menu;
 import 'package:flutter_hbb/desktop/widgets/tabbar_widget.dart';
 import 'package:flutter_hbb/models/ab_model.dart';
 import 'package:flutter_hbb/models/peer_model.dart';
@@ -53,19 +53,6 @@ class _PeerTabPageState extends State<PeerTabPage>
     _TabEntry(DiscoveredPeersView(
       menuPadding: _menuPadding(),
     )),
-    _TabEntry(
-        AddressBook(
-          menuPadding: _menuPadding(),
-        ),
-        ({dynamic hint}) => gFFI.abModel.pullAb(
-            force: hint == null ? ForcePullAb.listAndCurrent : null,
-            quiet: false)),
-    _TabEntry(
-      MyGroup(
-        menuPadding: _menuPadding(),
-      ),
-      ({dynamic hint}) => gFFI.groupModel.pull(force: hint == null),
-    ),
   ];
   RelativeRect? mobileTabContextMenuPos;
 
@@ -81,8 +68,8 @@ class _PeerTabPageState extends State<PeerTabPage>
       peerCardUiType.value = int.parse(uiType) == 0
           ? PeerUiType.grid
           : int.parse(uiType) == 1
-              ? PeerUiType.tile
-              : PeerUiType.list;
+          ? PeerUiType.tile
+          : PeerUiType.list;
     }
     hideAbTagsPanel.value =
         bind.mainGetLocalOption(key: kOptionHideAbTagsPanel) == 'Y';
@@ -110,25 +97,25 @@ class _PeerTabPageState extends State<PeerTabPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Obx(() => SizedBox(
-              height: 32,
-              child: Container(
-                padding: stateGlobal.isPortrait.isTrue
-                    ? EdgeInsets.symmetric(horizontal: 2)
-                    : null,
-                child: selectionWrap(Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: visibleContextMenuListener(
-                            _createSwitchBar(context))),
-                    if (stateGlobal.isPortrait.isTrue)
-                      ..._portraitRightActions(context)
-                    else
-                      ..._landscapeRightActions(context)
-                  ],
-                )),
-              ),
-            ).paddingOnly(right: stateGlobal.isPortrait.isTrue ? 0 : 12)),
+          height: 32,
+          child: Container(
+            padding: stateGlobal.isPortrait.isTrue
+                ? EdgeInsets.symmetric(horizontal: 2)
+                : null,
+            child: selectionWrap(Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: visibleContextMenuListener(
+                        _createSwitchBar(context))),
+                if (stateGlobal.isPortrait.isTrue)
+                  ..._portraitRightActions(context)
+                else
+                  ..._landscapeRightActions(context)
+              ],
+            )),
+          ),
+        ).paddingOnly(right: stateGlobal.isPortrait.isTrue ? 0 : 12)),
         _createPeersView(),
       ],
     );
@@ -154,34 +141,34 @@ class _PeerTabPageState extends State<PeerTabPage>
               borderRadius: BorderRadius.circular(6));
           final decoBorder = BoxDecoration(
               border: Border(
-            bottom: BorderSide(width: 2, color: color!),
-          ));
+                bottom: BorderSide(width: 2, color: color!),
+              ));
           counter += 1;
           return ReorderableDragStartListener(
               key: ValueKey(t),
               index: counter,
               child: Obx(() => Tooltip(
-                    preferBelow: false,
-                    message: model.tabTooltip(t),
-                    onTriggered: isMobile ? mobileShowTabVisibilityMenu : null,
-                    child: InkWell(
-                      child: Container(
-                        decoration: (hover.value
-                            ? (selected ? decoBorder : deco)
-                            : (selected ? decoBorder : null)),
-                        child: Icon(model.tabIcon(t), color: color)
-                            .paddingSymmetric(horizontal: 4),
-                      ).paddingSymmetric(horizontal: 4),
-                      onTap: isOptionFixed(kOptionPeerTabIndex)
-                          ? null
-                          : () async {
-                              await handleTabSelection(t);
-                              await bind.setLocalFlutterOption(
-                                  k: kOptionPeerTabIndex, v: t.toString());
-                            },
-                      onHover: (value) => hover.value = value,
-                    ),
-                  )));
+                preferBelow: false,
+                message: model.tabTooltip(t),
+                onTriggered: isMobile ? mobileShowTabVisibilityMenu : null,
+                child: InkWell(
+                  child: Container(
+                    decoration: (hover.value
+                        ? (selected ? decoBorder : deco)
+                        : (selected ? decoBorder : null)),
+                    child: Icon(model.tabIcon(t), color: color)
+                        .paddingSymmetric(horizontal: 4),
+                  ).paddingSymmetric(horizontal: 4),
+                  onTap: isOptionFixed(kOptionPeerTabIndex)
+                      ? null
+                      : () async {
+                    await handleTabSelection(t);
+                    await bind.setLocalFlutterOption(
+                        k: kOptionPeerTabIndex, v: t.toString());
+                  },
+                  onHover: (value) => hover.value = value,
+                ),
+              )));
         }).toList());
   }
 
@@ -277,11 +264,11 @@ class _PeerTabPageState extends State<PeerTabPage>
                 onChanged: isOptVisiableFixed
                     ? null
                     : (_) {
-                        model.setTabVisible(i, !model.isVisibleEnabled[i]);
-                        if (Navigator.canPop(context)) {
-                          Navigator.pop(context);
-                        }
-                      }),
+                  model.setTabVisible(i, !model.isVisibleEnabled[i]);
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  }
+                }),
             Expanded(child: Text(model.tabTooltip(i))),
           ],
         ),
@@ -314,7 +301,7 @@ class _PeerTabPageState extends State<PeerTabPage>
             }
             if (e.buttons == 2) {
               showRightMenu(
-                (CancelFunc cancelFunc) {
+                    (CancelFunc cancelFunc) {
                   return visibleContextMenu(cancelFunc);
                 },
                 target: e.position,
@@ -346,12 +333,12 @@ class _PeerTabPageState extends State<PeerTabPage>
     return mod_menu.PopupMenu(
         items: menu
             .map((entry) => entry.build(
-                context,
-                const MenuConfig(
-                  commonColor: MyTheme.accent,
-                  height: 20.0,
-                  dividerHeight: 12.0,
-                )))
+            context,
+            const MenuConfig(
+              commonColor: MyTheme.accent,
+              height: 20.0,
+              dividerHeight: 12.0,
+            )))
             .expand((i) => i)
             .toList());
   }
@@ -433,7 +420,7 @@ class _PeerTabPageState extends State<PeerTabPage>
     final model = Provider.of<PeerTabModel>(context);
     return Offstage(
       offstage:
-          model.currentTab != PeerTabIndex.recent.index, // show based on recent
+      model.currentTab != PeerTabIndex.recent.index, // show based on recent
       child: _hoverAction(
         context: context,
         toolTip: translate('Add to Favorites'),
@@ -482,18 +469,18 @@ class _PeerTabPageState extends State<PeerTabPage>
           model.currentTab != PeerTabIndex.ab.index ||
           gFFI.abModel.currentAbTags.isEmpty,
       child: _hoverAction(
-              context: context,
-              toolTip: translate('Edit Tag'),
-              onTap: () {
-                editAbTagDialog(List.empty(), (selectedTags) async {
-                  final peers = model.selectedPeers;
-                  await gFFI.abModel.changeTagForPeers(
-                      peers.map((p) => p.id).toList(), selectedTags);
-                  model.setMultiSelectionMode(false);
-                  showToast(translate('Successful'));
-                });
-              },
-              child: Icon(Icons.tag))
+          context: context,
+          toolTip: translate('Edit Tag'),
+          onTap: () {
+            editAbTagDialog(List.empty(), (selectedTags) async {
+              final peers = model.selectedPeers;
+              await gFFI.abModel.changeTagForPeers(
+                  peers.map((p) => p.id).toList(), selectedTags);
+              model.setMultiSelectionMode(false);
+              showToast(translate('Successful'));
+            });
+          },
+          child: Icon(Icons.tag))
           .marginOnly(left: !(isDesktop || isWebDesktop) ? 11 : 6),
     );
   }
@@ -508,7 +495,7 @@ class _PeerTabPageState extends State<PeerTabPage>
   Widget selectAll(PeerTabModel model) {
     return Offstage(
       offstage:
-          model.selectedPeers.length >= model.currentTabCachedPeers.length,
+      model.selectedPeers.length >= model.currentTabCachedPeers.length,
       child: _hoverAction(
         context: context,
         toolTip: translate('Select All'),
@@ -523,12 +510,12 @@ class _PeerTabPageState extends State<PeerTabPage>
   Widget closeSelection() {
     final model = Provider.of<PeerTabModel>(context);
     return _hoverAction(
-            context: context,
-            toolTip: translate('Close'),
-            onTap: () {
-              model.setMultiSelectionMode(false);
-            },
-            child: Icon(Icons.clear))
+        context: context,
+        toolTip: translate('Close'),
+        onTap: () {
+          model.setMultiSelectionMode(false);
+        },
+        child: Icon(Icons.clear))
         .marginOnly(left: 6);
   }
 
@@ -609,7 +596,7 @@ class _PeerTabPageState extends State<PeerTabPage>
               mainAxisSize: MainAxisSize.min,
               children: menus
                   .map((e) =>
-                      Material(child: e.paddingSymmetric(horizontal: padding)))
+                  Material(child: e.paddingSymmetric(horizontal: padding)))
                   .toList(),
             ),
           )
@@ -671,18 +658,18 @@ class _PeerSearchBarState extends State<PeerSearchBar> {
     return drawer
         ? _buildSearchBar()
         : _hoverAction(
-            context: context,
-            toolTip: translate('Search'),
-            padding: const EdgeInsets.only(right: 2),
-            onTap: () {
-              setState(() {
-                drawer = true;
-              });
-            },
-            child: Icon(
-              Icons.search_rounded,
-              color: Theme.of(context).hintColor,
-            ));
+        context: context,
+        toolTip: translate('Search'),
+        padding: const EdgeInsets.only(right: 2),
+        onTap: () {
+          setState(() {
+            drawer = true;
+          });
+        },
+        child: Icon(
+          Icons.search_rounded,
+          color: Theme.of(context).hintColor,
+        ));
   }
 
   Widget _buildSearchBar() {
@@ -695,74 +682,74 @@ class _PeerSearchBarState extends State<PeerSearchBar> {
           extentOffset: peerSearchTextController.value.text.length);
     });
     return Obx(() => Container(
-          width: stateGlobal.isPortrait.isTrue ? 120 : 140,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.background,
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.search_rounded,
-                      color: Theme.of(context).hintColor,
-                    ).marginSymmetric(horizontal: 4),
-                    Expanded(
-                      child: TextField(
-                        autofocus: true,
-                        controller: peerSearchTextController,
-                        onChanged: (searchText) {
-                          peerSearchText.value = searchText;
-                        },
-                        focusNode: focusNode,
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        cursorColor: Theme.of(context)
-                            .textTheme
-                            .titleLarge
-                            ?.color
-                            ?.withOpacity(0.5),
-                        cursorHeight: 18,
-                        cursorWidth: 1,
-                        style: const TextStyle(fontSize: 14),
-                        decoration: InputDecoration(
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 6),
-                          hintText:
-                              focused.value ? null : translate("Search ID"),
-                          hintStyle: TextStyle(
-                              fontSize: 14, color: Theme.of(context).hintColor),
-                          border: InputBorder.none,
-                          isDense: true,
-                        ),
-                      ).workaroundFreezeLinuxMint(),
+      width: stateGlobal.isPortrait.isTrue ? 120 : 140,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.search_rounded,
+                  color: Theme.of(context).hintColor,
+                ).marginSymmetric(horizontal: 4),
+                Expanded(
+                  child: TextField(
+                    autofocus: true,
+                    controller: peerSearchTextController,
+                    onChanged: (searchText) {
+                      peerSearchText.value = searchText;
+                    },
+                    focusNode: focusNode,
+                    textAlign: TextAlign.start,
+                    maxLines: 1,
+                    cursorColor: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.color
+                        ?.withOpacity(0.5),
+                    cursorHeight: 18,
+                    cursorWidth: 1,
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      contentPadding:
+                      const EdgeInsets.symmetric(vertical: 6),
+                      hintText:
+                      focused.value ? null : translate("Search ID"),
+                      hintStyle: TextStyle(
+                          fontSize: 14, color: Theme.of(context).hintColor),
+                      border: InputBorder.none,
+                      isDense: true,
                     ),
-                    // Icon(Icons.close),
-                    IconButton(
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.only(right: 2),
-                      onPressed: () {
-                        setState(() {
-                          peerSearchTextController.clear();
-                          peerSearchText.value = "";
-                          drawer = false;
-                        });
-                      },
-                      icon: Tooltip(
-                          message: translate('Close'),
-                          child: Icon(
-                            Icons.close,
-                            color: Theme.of(context).hintColor,
-                          )),
-                    ),
-                  ],
+                  ).workaroundFreezeLinuxMint(),
                 ),
-              )
-            ],
-          ),
-        ));
+                // Icon(Icons.close),
+                IconButton(
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(right: 2),
+                  onPressed: () {
+                    setState(() {
+                      peerSearchTextController.clear();
+                      peerSearchText.value = "";
+                      drawer = false;
+                    });
+                  },
+                  icon: Tooltip(
+                      message: translate('Close'),
+                      child: Icon(
+                        Icons.close,
+                        color: Theme.of(context).hintColor,
+                      )),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    ));
   }
 }
 
@@ -794,43 +781,43 @@ class _PeerViewDropdownState extends State<PeerViewDropdown> {
       items.add(PopupMenuItem(
           height: 36,
           child: Obx(() => Center(
-                child: SizedBox(
-                  height: 36,
-                  child: getRadio<PeerUiType>(
-                      Tooltip(
-                          message: translate(types.indexOf(e) == 0
-                              ? 'Big tiles'
-                              : types.indexOf(e) == 1
-                                  ? 'Small tiles'
-                                  : 'List'),
-                          child: Icon(
-                            e == PeerUiType.grid
-                                ? Icons.grid_view_rounded
-                                : e == PeerUiType.list
-                                    ? Icons.view_list_rounded
-                                    : Icons.view_agenda_rounded,
-                            size: 18,
-                          )),
-                      e,
-                      peerCardUiType.value,
-                      dense: true,
-                      isOptionFixed(kOptionPeerCardUiType)
-                          ? null
-                          : (PeerUiType? v) async {
-                              if (v != null) {
-                                peerCardUiType.value = v;
-                                setState(() {});
-                                await bind.setLocalFlutterOption(
-                                  k: kOptionPeerCardUiType,
-                                  v: peerCardUiType.value.index.toString(),
-                                );
-                                if (Navigator.canPop(context)) {
-                                  Navigator.pop(context);
-                                }
-                              }
-                            }),
-                ),
-              ))));
+            child: SizedBox(
+              height: 36,
+              child: getRadio<PeerUiType>(
+                  Tooltip(
+                      message: translate(types.indexOf(e) == 0
+                          ? 'Big tiles'
+                          : types.indexOf(e) == 1
+                          ? 'Small tiles'
+                          : 'List'),
+                      child: Icon(
+                        e == PeerUiType.grid
+                            ? Icons.grid_view_rounded
+                            : e == PeerUiType.list
+                            ? Icons.view_list_rounded
+                            : Icons.view_agenda_rounded,
+                        size: 18,
+                      )),
+                  e,
+                  peerCardUiType.value,
+                  dense: true,
+                  isOptionFixed(kOptionPeerCardUiType)
+                      ? null
+                      : (PeerUiType? v) async {
+                    if (v != null) {
+                      peerCardUiType.value = v;
+                      setState(() {});
+                      await bind.setLocalFlutterOption(
+                        k: kOptionPeerCardUiType,
+                        v: peerCardUiType.value.index.toString(),
+                      );
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    }
+                  }),
+            ),
+          ))));
     }
 
     var menuPos = RelativeRect.fromLTRB(0, 0, 0, 0);
@@ -841,8 +828,8 @@ class _PeerViewDropdownState extends State<PeerViewDropdown> {
           peerCardUiType.value == PeerUiType.grid
               ? Icons.grid_view_rounded
               : peerCardUiType.value == PeerUiType.list
-                  ? Icons.view_list_rounded
-                  : Icons.view_agenda_rounded,
+              ? Icons.view_list_rounded
+              : Icons.view_agenda_rounded,
           size: 18,
         ),
         onTapDown: (details) {
@@ -851,11 +838,11 @@ class _PeerViewDropdownState extends State<PeerViewDropdown> {
           menuPos = RelativeRect.fromLTRB(x, y, x, y);
         },
         onTap: () => showMenu(
-              context: context,
-              position: menuPos,
-              items: items,
-              elevation: 8,
-            ));
+          context: context,
+          position: menuPos,
+          items: items,
+          elevation: 8,
+        ));
   }
 }
 
@@ -896,21 +883,21 @@ class _PeerSortDropdownState extends State<PeerSortDropdown> {
       items.add(PopupMenuItem(
           height: 36,
           child: Obx(() => Center(
-                child: SizedBox(
-                  height: 36,
-                  child: getRadio(
-                      Text(translate(e), style: style), e, peerSort.value,
-                      dense: true, (String? v) async {
-                    if (v != null) {
-                      peerSort.value = v;
-                      await bind.setLocalFlutterOption(
-                        k: kOptionPeerSorting,
-                        v: peerSort.value,
-                      );
-                    }
-                  }),
-                ),
-              ))));
+            child: SizedBox(
+              height: 36,
+              child: getRadio(
+                  Text(translate(e), style: style), e, peerSort.value,
+                  dense: true, (String? v) async {
+                if (v != null) {
+                  peerSort.value = v;
+                  await bind.setLocalFlutterOption(
+                    k: kOptionPeerSorting,
+                    v: peerSort.value,
+                  );
+                }
+              }),
+            ),
+          ))));
     }
 
     var menuPos = RelativeRect.fromLTRB(0, 0, 0, 0);
@@ -1000,12 +987,12 @@ class RefreshWidgetState extends State<RefreshWidget> {
 
 Widget _hoverAction(
     {required BuildContext context,
-    required Widget child,
-    required Function() onTap,
-    required String toolTip,
-    GestureTapDownCallback? onTapDown,
-    RxBool? hoverableWhenfalse,
-    EdgeInsetsGeometry padding = const EdgeInsets.all(4.0)}) {
+      required Widget child,
+      required Function() onTap,
+      required String toolTip,
+      GestureTapDownCallback? onTapDown,
+      RxBool? hoverableWhenfalse,
+      EdgeInsetsGeometry padding = const EdgeInsets.all(4.0)}) {
   final hover = false.obs;
   final deco = BoxDecoration(
     color: Theme.of(context).colorScheme.background,
@@ -1014,10 +1001,10 @@ Widget _hoverAction(
   return Tooltip(
     message: toolTip,
     child: Obx(
-      () => Container(
+          () => Container(
           margin: EdgeInsets.symmetric(horizontal: 1),
           decoration:
-              (hover.value || hoverableWhenfalse?.value == false) ? deco : null,
+          (hover.value || hoverableWhenfalse?.value == false) ? deco : null,
           child: InkWell(
               onHover: (value) => hover.value = value,
               onTap: onTap,
