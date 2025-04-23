@@ -29,9 +29,7 @@ class HomePageState extends State<HomePage> {
   int get selectedIndex => _selectedIndex;
   final List<PageShape> _pages = [];
   int _chatPageTabIndex = -1;
-  bool get isChatPageCurrentTab => isAndroid
-      ? _selectedIndex == _chatPageTabIndex
-      : false; // change this when ios have chat page
+  bool get isChatPageCurrentTab => false; // change this when ios have chat page
 
   void refreshPages() {
     setState(() {
@@ -53,10 +51,12 @@ class HomePageState extends State<HomePage> {
       ));
     }
     if (isAndroid && !bind.isOutgoingOnly()) {
-      _chatPageTabIndex = _pages.length;
-      _pages.addAll([ChatPage(type: ChatPageType.mobileMain), ServerPage()]);
+      // _chatPageTabIndex = _pages.length;
+      //  _pages.addAll([ChatPage(type: ChatPageType.mobileMain), ServerPage()]);
+      _pages.add(ServerPage());
     }
-    _pages.add(SettingsPage());
+
+    // _pages.add(SettingsPage());
   }
 
   @override
