@@ -78,7 +78,7 @@ class HomePageState extends State<HomePage> {
             centerTitle: true,
             title: Text('远程协助'),
             actions: _pages.elementAt(_selectedIndex).appBarActions,
-          ), 
+          ),
           body: _pages.elementAt(_selectedIndex),
         ));
   }

@@ -304,6 +304,7 @@ class ScamWarningDialogState extends State<ScamWarningDialog> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
+                          elevation: 0
                         ),
                         child: Text(   translate("Decline"),
                           style: TextStyle(
@@ -325,6 +326,7 @@ class ScamWarningDialogState extends State<ScamWarningDialog> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
+                          elevation: 0
                       ),
                       child: Text(
                         translate("I Agree"),
