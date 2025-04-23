@@ -75,10 +75,10 @@ android {
 
     signingConfigs {
       release {
-        keyAlias keystoreProperties['keyAlias']
-        keyPassword keystoreProperties['keyPassword']
-        storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-        storePassword keystoreProperties['storePassword']
+          storeFile file("./desk.jks")
+          storePassword "123456"
+          keyAlias "key0"
+          keyPassword "123456"
       }
     }
 

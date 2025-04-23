@@ -308,9 +308,8 @@ class ScamWarningDialogState extends State<ScamWarningDialog> {
                         ),
                         child: Text(   translate("Decline"),
                           style: TextStyle(
-                            color: Color(0xFF0D67FF),
+                            color: Colors.blue,
                             fontWeight: FontWeight.bold,
-                            fontSize: 13.0,
                           ),
                         ),
                       ),
@@ -331,9 +330,7 @@ class ScamWarningDialogState extends State<ScamWarningDialog> {
                       child: Text(
                         translate("I Agree"),
                         style: TextStyle(
-                          color: Color(0xFF0D67FF),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13.0,
+                          color: Colors.blue,
                         ),
                       ),
                     ),
