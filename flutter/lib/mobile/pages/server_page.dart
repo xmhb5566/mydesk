@@ -283,7 +283,7 @@ class ScamWarningDialogState extends State<ScamWarningDialog> {
             decoration: BoxDecoration(
              color: Colors.white
             ),
-            padding: EdgeInsets.all(25.0),
+            padding: EdgeInsets.all(18.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,10 +306,9 @@ class ScamWarningDialogState extends State<ScamWarningDialog> {
                           backgroundColor: Colors.white,
                           elevation: 0
                         ),
-                        child: Text(   translate("Decline"),
+                        child: Text(  '取消',
                           style: TextStyle(
                             color: Colors.blue,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -328,7 +327,7 @@ class ScamWarningDialogState extends State<ScamWarningDialog> {
                           elevation: 0
                       ),
                       child: Text(
-                        translate("I Agree"),
+                        '确定',
                         style: TextStyle(
                           color: Colors.blue,
                         ),
