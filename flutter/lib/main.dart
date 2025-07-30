@@ -369,6 +369,10 @@ void _runApp(
 
 void runInstallPage() async {
   await windowManager.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark ));
+
   await initEnv(kAppTypeMain);
   _runApp('', const InstallPage(), MyTheme.currentThemeMode());
   WindowOptions windowOptions =
