@@ -172,6 +172,15 @@ void runMobileApp() async {
   draggablePositions.load();
   await Future.wait([gFFI.abModel.loadCache(), gFFI.groupModel.loadCache()]);
   gFFI.userModel.refreshCurrentUser();
+  // 设置沉浸式状态栏
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // 状态栏颜色透明
+      statusBarIconBrightness: Brightness.dark, // 图标亮度为深色（根据需求调整）
+      systemNavigationBarColor: Colors.transparent, // 导航栏颜色透明（如果有导航栏）
+      systemNavigationBarIconBrightness: Brightness.dark, // 导航栏图标亮度为深色
+    ),
+  );
   runApp(App());
   await initUniLinks();
 }
@@ -368,11 +377,7 @@ void _runApp(
 }
 
 void runInstallPage() async {
-  await windowManager.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark ));
-
+  await windowManager.ensureInitialized();  
   await initEnv(kAppTypeMain);
   _runApp('', const InstallPage(), MyTheme.currentThemeMode());
   WindowOptions windowOptions =
