@@ -1,7 +1,8 @@
 ﻿<!--
 This file contains the declaration of all the localizable strings.
 -->
-<wixlocalization culture="en-us" codepage="1252" xmlns="http://wixtoolset.org/schemas/v4/wxl">
+<WixLocalization Culture="en-us" Codepage="1252"
+	xmlns="http://wixtoolset.org/schemas/v4/wxl">
 
 	<string id="SummaryCodepage" value="1252" />
 	<string id="ProductLanguage" value="1033" />
@@ -52,4 +53,4 @@ This file contains the declaration of all the localizable strings.
 	<string id="MyInstallDirDlgStartMenuShortcuts" value="Добавить ярлыки в меню «Пуск»" />
 	<string id="MyInstallDirDlgPrinter" value="Установить Принтер RustDesk" />
 
-</wixlocalization>
+</WixLocalization>
