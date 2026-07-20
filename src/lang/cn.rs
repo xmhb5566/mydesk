@@ -1,3 +1,5 @@
+// Modified by xmhb5566 on 2026-07-20
+// Modification: 将中文语言资源中的品牌名 "RustDesk" 重命名为 "远程协助"
 lazy_static::lazy_static! {
 pub static ref T: std::collections::HashMap<&'static str, &'static str> =
     [

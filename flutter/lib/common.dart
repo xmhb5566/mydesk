@@ -1,3 +1,5 @@
+// Modified by xmhb5566 on 2026-07-20
+// Modification: 调整主题颜色（菜单栏背景色与主色调）
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';

@@ -1,3 +1,5 @@
+// Modified by xmhb5566 on 2026-07-20
+// Modification: 新增沉浸式状态栏设置（SystemUiOverlayStyle）
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';

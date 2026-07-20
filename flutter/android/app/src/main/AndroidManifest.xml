@@ -1,3 +1,5 @@
+<!-- Modified by xmhb5566 on 2026-07-20 -->
+<!-- Modification: 将应用及输入服务的 android:label 由 "RustDesk"/"RustDesk Input" 改为 "远程协助" -->
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.carriez.flutter_hbb">

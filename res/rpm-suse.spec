@@ -1,3 +1,5 @@
+# Modified by xmhb5566 on 2026-07-20
+# Modification: 将 RPM 包名由 rustdesk 改为 远程协助
 Name:       远程协助
 Version:    1.1.9
 Release:    0

@@ -1,3 +1,5 @@
+// Modified by xmhb5566 on 2026-07-20
+// Modification: 重构移动端设置页 UI 与选项布局
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';

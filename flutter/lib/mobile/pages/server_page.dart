@@ -1,3 +1,5 @@
+// Modified by xmhb5566 on 2026-07-20
+// Modification: 重构服务页 UI，新增防诈提醒弹窗并调整品牌配色
 import 'dart:async';
 
 import 'package:flutter/material.dart';

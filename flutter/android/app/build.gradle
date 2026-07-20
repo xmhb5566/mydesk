@@ -1,3 +1,5 @@
+// Modified by xmhb5566 on 2026-07-20
+// Modification: 将 Android applicationId 由 com.carriez.flutter_hbb 改为 com.zhangyin.desk
 import com.google.protobuf.gradle.*
 plugins {
     id "com.google.protobuf" version "0.9.4"

@@ -1,3 +1,5 @@
+// Modified by xmhb5566 on 2026-07-20
+// Modification: 将同行标签页数量由 5 个精简为 3 个（移除地址簿与可访问设备标签）
 import 'dart:convert';
 import 'dart:math';
 

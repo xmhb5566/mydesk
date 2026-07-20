@@ -1,3 +1,5 @@
+# Modified by xmhb5566 on 2026-07-20
+# Modification: 将 hbb_common 子模块 URL 由 rustdesk/hbb_common 改为 xmhb5566/hbb_common（指向自有 fork）
 [submodule "libs/hbb_common"]
 	path = libs/hbb_common
 	url = https://github.com/xmhb5566/hbb_common

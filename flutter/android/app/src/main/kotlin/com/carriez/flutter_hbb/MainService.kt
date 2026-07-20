@@ -1,3 +1,5 @@
+// Modified by xmhb5566 on 2026-07-20
+// Modification: 将默认通知标题由 "RustDesk" 改为 "远程协助"
 package com.carriez.flutter_hbb
 
 import ffi.FFI

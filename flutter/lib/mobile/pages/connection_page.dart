@@ -1,3 +1,5 @@
+// Modified by xmhb5566 on 2026-07-20
+// Modification: 移除连接页的软件更新提示 UI（_buildUpdateUI）
 import 'dart:async';
 
 import 'package:auto_size_text_field/auto_size_text_field.dart';
