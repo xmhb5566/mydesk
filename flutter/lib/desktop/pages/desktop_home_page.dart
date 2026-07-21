@@ -1,5 +1,5 @@
 // Modified by xmhb5566 on 2026-07-21
-// Modification: 移除桌面首页的软件升级检测与本地低版本升级提示
+// Modification: 移除桌面首页的软件升级检测与本地低版本升级提示；outgoing-only 模式下隐藏安装提示卡片
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
@@ -447,7 +447,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
       return buildInstallCard("", systemError, "", () {});
     }
 
-    if (isWindows && !bind.isDisableInstallation()) {
+    if (isWindows && !bind.isDisableInstallation() && !isOutgoingOnly) {
       if (!bind.mainIsInstalled()) {
         return buildInstallCard(
             "", bind.isOutgoingOnly() ? "" : "install_tip", "Install",
