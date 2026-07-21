@@ -1,3 +1,5 @@
+// Modified by xmhb5566 on 2026-07-21
+// Modification: 移除桌面首页的软件升级检测与本地低版本升级提示
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
@@ -453,14 +455,16 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           await rustDeskWinManager.closeAllSubWindows();
           bind.mainGotoInstall();
         });
-      } else if (bind.mainIsInstalledLowerVersion()) {
-        return buildInstallCard(
-            "Status", "Your installation is lower version.", "Click to upgrade",
-            () async {
-          await rustDeskWinManager.closeAllSubWindows();
-          bind.mainUpdateMe();
-        });
       }
+      // Disabled: removed local lower-version upgrade prompt
+      // else if (bind.mainIsInstalledLowerVersion()) {
+      //   return buildInstallCard(
+      //       "Status", "Your installation is lower version.", "Click to upgrade",
+      //       () async {
+      //     await rustDeskWinManager.closeAllSubWindows();
+      //     bind.mainUpdateMe();
+      //   });
+      // }
     } else if (isMacOS) {
       final isOutgoingOnly = bind.isOutgoingOnly();
       if (!(isOutgoingOnly || bind.mainIsCanScreenRecording(prompt: false))) {

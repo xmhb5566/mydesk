@@ -1,5 +1,5 @@
 // Modified by xmhb5566 on 2026-07-20
-// Modification: 新增沉浸式状态栏设置（SystemUiOverlayStyle）
+// Modification: 新增沉浸式状态栏设置（SystemUiOverlayStyle）；移除桌面端软件升级检测（checkUpdate）
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -130,7 +130,7 @@ Future<void> initEnv(String appType) async {
 void runMainApp(bool startService) async {
   // register uni links
   await initEnv(kAppTypeMain);
-  checkUpdate();
+  // checkUpdate(); // Disabled: removed software upgrade detection for desktop
   // trigger connection status updater
   await bind.mainCheckConnectStatus();
   if (startService) {
